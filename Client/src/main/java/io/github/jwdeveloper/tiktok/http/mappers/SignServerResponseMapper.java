@@ -30,8 +30,8 @@ public class SignServerResponseMapper {
         var parsedJson = JsonParser.parseString(json);
         var jsonObject = parsedJson.getAsJsonObject();
 
-        var signUrl = jsonObject.get("signedUrl").getAsString();
-        var userAgent = jsonObject.get("User-Agent").getAsString();
+        var signUrl = jsonObject.get("signed_url").getAsString();
+        var userAgent = jsonObject.get("user_agent").getAsString();
         return new SignServerResponse(signUrl, userAgent);
     }
 }
