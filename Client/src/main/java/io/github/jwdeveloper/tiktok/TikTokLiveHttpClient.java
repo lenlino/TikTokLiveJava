@@ -39,7 +39,7 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
      * Signing API by Isaac Kogan
      * https://github-wiki-see.page/m/isaackogan/TikTokLive/wiki/All-About-Signatures
      */
-    private static final String TIKTOK_SIGN_API = "https://tiktok.eulerstream.com/webcast/sign_url";
+    private static final String TIKTOK_SIGN_API = "http://localhost:3000/signature";
     private static final String TIKTOK_URL_WEB = "https://www.tiktok.com/";
     private static final String TIKTOK_URL_WEBCAST = "https://webcast.tiktok.com/webcast/";
 
