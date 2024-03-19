@@ -212,7 +212,7 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
 
     SignServerResponse getSignedUrl(String roomId) {
         var urlToSign = httpFactory
-                .client(TikTokLiveHttpClient.TIKTOK_URL_WEBCAST + "im/fetch")
+                .client(TikTokLiveHttpClient.TIKTOK_URL_WEBCAST + "im/fetch/")
                 .withParam("room_id", roomId)
                 .build()
                 .toUrl();
