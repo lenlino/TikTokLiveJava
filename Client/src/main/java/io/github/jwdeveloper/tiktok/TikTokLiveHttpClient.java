@@ -183,13 +183,14 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
 
     @Override
     public LiveConnectionData.Response fetchLiveConnectionData(LiveConnectionData.Request request) {
+        var websocketCookie = "ttwid=1%7Cmgsg9Bp04St6_pQ957QhoNbVm2YCexSNXbwk9-NwhvA%7C1710919455%7Cfeea01bc0e19561fec1095bd767aa0f1db80bc0ef5566cc52d2a7ae3a7ecbf09";
 		HttpResponse<byte[]> credentialsResponse = getOptionalProxyResponse(request).orElseGet(()-> {
             SignServerResponse signServerResponse = getSignedUrl(request.getRoomId());
-            return getWebsocketCredentialsResponse(signServerResponse.getSignedUrl());
+            return getWebsocketCredentialsResponse(signServerResponse.getSignedUrl(), websocketCookie, signServerResponse.getUserAgent());
         });
 
         try {
-            var websocketCookie = "ttwid=1%7Cmgsg9Bp04St6_pQ957QhoNbVm2YCexSNXbwk9-NwhvA%7C1710919455%7Cfeea01bc0e19561fec1095bd767aa0f1db80bc0ef5566cc52d2a7ae3a7ecbf09";
+
             var webcastResponse = WebcastResponse.parseFrom(credentialsResponse.body());
             System.out.println(Arrays.toString(credentialsResponse.body()));
             System.out.println(webcastResponse.getPushServer());
@@ -233,9 +234,11 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
         return signServerResponseMapper.map(json);
     }
 
-    HttpResponse<byte[]> getWebsocketCredentialsResponse(String signedUrl) {
+    HttpResponse<byte[]> getWebsocketCredentialsResponse(String signedUrl, String cookie, String userAgent) {
         var optionalResponse = httpFactory
                 .clientEmpty(signedUrl)
+                .withHeader("Cookie", cookie)
+                .withHeader("User-Agent", userAgent)
                 .build()
                 .toResponse();
         if (optionalResponse.isEmpty()) {
@@ -250,7 +253,7 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
             while (proxyClientSettings.hasNext()) {
                 try {
                     SignServerResponse signServerResponse = getSignedUrl(request.getRoomId());
-                    HttpResponse<byte[]> credentialsResponse = getWebsocketCredentialsResponse(signServerResponse.getSignedUrl());
+                    HttpResponse<byte[]> credentialsResponse = getWebsocketCredentialsResponse(signServerResponse.getSignedUrl(), "", "");
                     clientSettings.getHttpSettings().getProxyClientSettings().rotate();
                     return Optional.of(credentialsResponse);
                 } catch (TikTokProxyRequestException | TikTokSignServerException ignored) {}
