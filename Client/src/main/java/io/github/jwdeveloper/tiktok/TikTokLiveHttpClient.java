@@ -31,6 +31,7 @@ import io.github.jwdeveloper.tiktok.http.mappers.*;
 import io.github.jwdeveloper.tiktok.messages.webcast.WebcastResponse;
 
 import java.net.http.HttpResponse;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class TikTokLiveHttpClient implements LiveHttpClient {
@@ -190,7 +191,7 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
         try {
             var websocketCookie = "ttwid=1%7Cmgsg9Bp04St6_pQ957QhoNbVm2YCexSNXbwk9-NwhvA%7C1710919455%7Cfeea01bc0e19561fec1095bd767aa0f1db80bc0ef5566cc52d2a7ae3a7ecbf09";
             var webcastResponse = WebcastResponse.parseFrom(credentialsResponse.body());
-            System.out.println(credentialsResponse.body().toString());
+            System.out.println(Arrays.toString(credentialsResponse.body()));
             System.out.println(webcastResponse.getPushServer());
             var webSocketUrl = httpFactory
                     .client(webcastResponse.getPushServer())
