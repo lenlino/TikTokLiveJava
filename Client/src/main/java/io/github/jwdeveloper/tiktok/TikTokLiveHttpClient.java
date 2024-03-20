@@ -188,11 +188,7 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
         });
 
         try {
-            var optionalHeader = credentialsResponse.headers().firstValue("set-cookie");
-            if (optionalHeader.isEmpty()) {
-                throw new TikTokSignServerException("Sign server did not return the set-cookie header");
-            }
-            var websocketCookie = optionalHeader.get();
+            var websocketCookie = "ttwid=1%7Cmgsg9Bp04St6_pQ957QhoNbVm2YCexSNXbwk9-NwhvA%7C1710919455%7Cfeea01bc0e19561fec1095bd767aa0f1db80bc0ef5566cc52d2a7ae3a7ecbf09";
             var webcastResponse = WebcastResponse.parseFrom(credentialsResponse.body());
             var webSocketUrl = httpFactory
                     .client(webcastResponse.getPushServer())
