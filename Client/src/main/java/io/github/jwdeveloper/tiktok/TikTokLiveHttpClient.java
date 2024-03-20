@@ -235,6 +235,8 @@ public class TikTokLiveHttpClient implements LiveHttpClient {
     }
 
     HttpResponse<byte[]> getWebsocketCredentialsResponse(String signedUrl, String cookie, String userAgent) {
+        System.out.println(cookie);
+        System.out.println(userAgent);
         var optionalResponse = httpFactory
                 .clientEmpty(signedUrl)
                 .withHeader("Cookie", cookie)
